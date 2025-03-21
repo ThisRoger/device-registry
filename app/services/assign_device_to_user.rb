@@ -5,19 +5,37 @@ class AssignDeviceToUser
   end
 
   def call(requesting_user:, device_serial_number:)
-    if requesting_user.is_a?(User)
-      if requesting_user.is_renting?
-        puts "User with ID #{requesting_user.id} is already renting a Device!"
-      else
-        if Device.exists?(serial_number: device_serial_number)
-          requesting_user.update(is_renting: device_serial_number)
-          puts "User with ID #{requesting_user.id} is now renting the device with serial number: #{device_serial_number}!"
-        else
-          puts "No such device with serial number: #{device_serial_number}!"
-        end
-      end
-    else
-      puts "User with ID #{requesting_user.id} is not a User!"
+    unless requesting_user.is_a?(User)
+      puts "User with ID #{requesting_user.id} wasn't found!"
+      return
     end
+
+    if requesting_user.is_renting?
+      puts "User with ID #{requesting_user.id} is already renting a device!"
+      return
+    end
+
+    found_device = Device.find_by(serial_number: device_serial_number)
+
+    unless found_device
+      puts "Device with serial number #{device_serial_number} was not found!"
+      return
+    end
+
+    if found_device.is_rented?
+      puts "Device with serial number #{device_serial_number} is already rented by another user!"
+      return
+    end
+
+    if found_device.users_ids.include?(requesting_user.id.to_s)
+      puts "User with ID #{requesting_user.id} already had rented the device with serial number #{device_serial_number}!"
+      return
+    end
+
+    requesting_user.update(is_renting: device_serial_number)
+    found_device.update(renting_user_id: requesting_user.id)
+    found_device.users_ids << requesting_user.id
+    found_device.save!
+    true
   end
 end
