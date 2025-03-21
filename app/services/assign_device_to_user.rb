@@ -10,6 +10,7 @@ class AssignDeviceToUser
       return
     end
 
+
     if requesting_user.is_renting?
       puts "User with ID #{requesting_user.id} is already renting a device!"
       return
@@ -27,15 +28,23 @@ class AssignDeviceToUser
       return
     end
 
-    if found_device.users_ids.include?(requesting_user.id.to_s)
-      puts "User with ID #{requesting_user.id} already had rented the device with serial number #{device_serial_number}!"
+    rental_history = DeviceRental.find_by(device_serial_number: found_device.serial_number)
+
+    if rental_history.nil?
+      DeviceRental.create(
+        :rental_date => Time.now,
+        :device_serial_number => device_serial_number,
+        :user_id => requesting_user.id
+      )
       return
     end
 
-    requesting_user.update(is_renting: device_serial_number)
-    found_device.update(renting_user_id: requesting_user.id)
-    found_device.users_ids << requesting_user.id
-    found_device.save!
-    true
-  end
+    unless rental_history.nil?
+      puts "Device with serial number #{device_serial_number} was already rented by this user!"
+      return
+    end
+
+    rental_history.update(return_date: Time.now)
+    nil
+    end
 end
