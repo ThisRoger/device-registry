@@ -7,7 +7,7 @@ class DevicesController < ApplicationController
       requesting_user: @current_user,
       serial_number: params[:serial_number],
       new_device_owner_id: params[:new_device_owner_id]
-    ).call
+    ).call(requesting_user: @current_user, device_serial_number: params[:serial_number])
     head :ok
   end
 

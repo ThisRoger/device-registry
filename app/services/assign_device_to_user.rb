@@ -4,13 +4,17 @@ class AssignDeviceToUser
   def initialize(requesting_user:, serial_number:, new_device_owner_id:)
   end
 
-  def call(requesting_user:, serial_number:)
+  def call(requesting_user:, device_serial_number:)
     if requesting_user.is_a?(User)
       if requesting_user.is_renting?
         puts "User with ID #{requesting_user.id} is already renting a Device!"
+      else
+        if Device.exists?(serial_number: device_serial_number)
+          requesting_user.update(is_renting: device_serial_number)
+          puts "User with ID #{requesting_user.id} is now renting the device with serial number: #{device_serial_number}!"
         else
-        requesting_user.update(is_renting: serial_number)
-        puts "User with ID #{requesting_user.id} is now renting the device with serial number: #{serial_number}!"
+          puts "No such device with serial number: #{device_serial_number}!"
+        end
       end
     else
       puts "User with ID #{requesting_user.id} is not a User!"
