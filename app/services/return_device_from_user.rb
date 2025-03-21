@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 class ReturnDeviceFromUser
-  def initialize
+  def initialize(requesting_user)
     # TODO
   end
 
-  def call
+  def call(requesting_user:)
     # TODO
   end
 end

@@ -12,7 +12,9 @@ class DevicesController < ApplicationController
   end
 
   def unassign
-    # TODO: implement the unassign action
+    ReturnDeviceFromUser.new(requesting_user: @current_user)
+                        .call(requesting_user: @current_user)
+    head :ok
   end
 
   private
