@@ -35,24 +35,27 @@ class AssignDeviceToUser
       raise AssigningError::AlreadyUsedOnOtherUser
     end
 
-    rental_history = DeviceRental.find_by(device_serial_number: @serial_number, return_date: nil)
+    rental_history = DeviceRental.find_by(device_serial_number: @serial_number, user_id: @requesting_user.id)
 
     if rental_history.nil?
-      DeviceRental.create(
-        :rental_date => Time.now,
+      created_entry = DeviceRental.create(
+        :rental_date => DateTime.now,
         :device_serial_number => @serial_number,
         :user_id => @requesting_user.id
       )
+      created_entry.save
       found_device.update(renting_user_id: @requesting_user.id)
+      found_device.save
       true
     else
-      if rental_history.user_id == @requesting_user.id and rental_history.return_date.nil?
+      if rental_history.user_id == @requesting_user.id and rental_history.return_date != nil
         puts "Device with serial number #{@serial_number} was already rented by this user!"
-        raise RegistrationError::Unauthorized
+        raise AssigningError::AlreadyUsedOnUser
       end
       if rental_history.user_id == @requesting_user.id
         puts "Device with serial number #{@serial_number} is currently rented by this user!"
-        raise RegistrationError::Unauthorized
+        puts "About to raise the error!"
+        raise AssigningError::AlreadyUsedOnUser
       end
     end
   end
