@@ -13,7 +13,7 @@ class DevicesController < ApplicationController
 
   def unassign
     ReturnDeviceFromUser.new(requesting_user: @current_user)
-                        .call(requesting_user: @current_user)
+                        .call
     head :ok
   end
 
