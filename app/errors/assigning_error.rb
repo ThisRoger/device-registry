@@ -5,7 +5,7 @@ module AssigningError
     end
   end
 
-  class AlreadyUsedOnUser < StandardError
+  class AlreadyUsedOnCurrentUser < StandardError
     def initialize(message = "Device is already assigned to this user.")
       super(message)
     end

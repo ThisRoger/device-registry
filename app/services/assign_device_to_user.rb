@@ -53,7 +53,7 @@ class AssignDeviceToUser
       true
     else
       Rails.logger.error "Device with serial number #{@serial_number} was already rented by this user!"
-      raise AssigningError::AlreadyUsedOnUser
+      raise AssigningError::AlreadyUsedOnCurrentUser
     end
   end
 end

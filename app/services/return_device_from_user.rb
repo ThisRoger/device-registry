@@ -13,7 +13,7 @@ class ReturnDeviceFromUser
     else
       if @user.id != @from_user
         Rails.logger.error "You cannot return a device from another user!"
-        raise AssigningError::AlreadyUsedOnOtherUser
+        raise UnassigningError::AlreadyUsedOnOtherUser
       end
     end
   end

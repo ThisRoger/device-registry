@@ -17,4 +17,9 @@ module UnassigningError
     end
   end
 
+  class AlreadyUsedOnOtherUser < StandardError
+    def initialize(message = "Device is currently rented by another user")
+      super(message)
+    end
+  end
 end
