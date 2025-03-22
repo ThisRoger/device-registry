@@ -10,9 +10,13 @@ class AssignDeviceToUser
   def call
     unless @requesting_user.is_a?(User)
       puts "User with ID #{@requesting_user.id} wasn't found!"
-      return
+      return false
     end
 
+    if @requesting_user.id != @new_device_owner_id
+      puts "You cannot assign a device to another user!"
+      raise RegistrationError::Unauthorized
+    end
 
     if @requesting_user.is_renting?
       puts "User with ID #{@requesting_user.id} is already renting a device!"
@@ -31,7 +35,7 @@ class AssignDeviceToUser
       raise RegistrationError::Unauthorized
     end
 
-    rental_history = DeviceRental.find_by(device_serial_number: found_device.serial_number)
+    rental_history = DeviceRental.find_by(device_serial_number: @serial_number, return_date: nil)
 
     if rental_history.nil?
       DeviceRental.create(
@@ -40,11 +44,8 @@ class AssignDeviceToUser
         :user_id => @requesting_user.id
       )
       found_device.update(renting_user_id: @requesting_user.id)
-      nil
+      true
     else
-      if rental_history.user_id != @requesting_user.id
-        raise AssigningError::AlreadyUsedOnOtherUser
-      end
       if rental_history.user_id == @requesting_user.id and rental_history.return_date.nil?
         puts "Device with serial number #{@serial_number} was already rented by this user!"
         raise RegistrationError::Unauthorized
@@ -56,3 +57,4 @@ class AssignDeviceToUser
     end
   end
 end
+
