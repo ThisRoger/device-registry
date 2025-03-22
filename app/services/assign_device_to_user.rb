@@ -23,7 +23,7 @@ class AssignDeviceToUser
       raise AssigningError::AlreadyUsedOnOtherUser
     end
 
-    found_device = Device.find_by(serial_number: @serial_number)
+    found_device = Device.find_or_create_by(serial_number: @serial_number)
 
     unless found_device
       puts "Device with serial number #{@serial_number} was not found!"
@@ -32,7 +32,7 @@ class AssignDeviceToUser
 
     if found_device.is_rented?
       puts "Device with serial number #{@serial_number} is already rented by another user!"
-      raise RegistrationError::Unauthorized
+      raise AssigningError::AlreadyUsedOnOtherUser
     end
 
     rental_history = DeviceRental.find_by(device_serial_number: @serial_number, return_date: nil)
