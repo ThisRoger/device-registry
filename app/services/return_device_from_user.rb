@@ -8,11 +8,6 @@ class ReturnDeviceFromUser
   end
 
   def call
-    unless @user.is_a?(User)
-      puts "User with ID #{@user.id} wasn't found!"
-      return false
-    end
-
     if @user.id != @from_user
       puts "You cannot return a device from another user!"
       raise AssigningError::AlreadyUsedOnUser
@@ -31,6 +26,10 @@ class ReturnDeviceFromUser
       rented_device.save
       rental_history.return_date = DateTime.now
       rental_history.save
+      @user.update(rented_device_serial_number: nil)
+      @user.save
+    else
+      raise UnassigningError::DeviceWasAlreadyRentedByThisUser
     end
   end
 end
