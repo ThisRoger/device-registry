@@ -7,12 +7,12 @@ class DevicesController < ApplicationController
       requesting_user: @current_user,
       serial_number: params[:serial_number],
       new_device_owner_id: params[:new_device_owner_id]
-    ).call(requesting_user: @current_user, device_serial_number: params[:serial_number])
+    ).call
     head :ok
   end
 
   def unassign
-    ReturnDeviceFromUser.new(requesting_user: @current_user)
+    ReturnDeviceFromUser.new(user: @current_user, serial_number: params[:serial_number], from_user: params[:user_id])
                         .call
     head :ok
   end
