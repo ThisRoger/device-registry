@@ -4,10 +4,6 @@ class User < ApplicationRecord
   has_secure_password
 
   def is_renting?
-    if rented_device_serial_number?
-      true
-    else
-      false
-    end
+      rented_device_serial_number?
   end
 end
