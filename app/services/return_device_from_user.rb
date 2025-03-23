@@ -39,6 +39,7 @@ class ReturnDeviceFromUser
 
     if rental_history.return_date.nil?
       unassign_device_from_current_owner(rental_history)
+      true
     else
       Rails.logger.error "This user already had rented this device previously!"
       raise UnassigningError::DeviceWasAlreadyRentedByThisUser

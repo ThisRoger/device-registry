@@ -21,7 +21,7 @@ class DevicesController < ApplicationController
       .call
       head :ok
     rescue StandardError => e
-      head :unprocessable_entity
+      render json: { error: 'Unauthorized' }, status: 422
     end
   end
 

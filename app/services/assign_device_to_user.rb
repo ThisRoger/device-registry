@@ -19,7 +19,7 @@ class AssignDeviceToUser
 
     if @requesting_user.is_renting?
       Rails.logger.error "User with ID #{@requesting_user.id} is already renting a device!"
-      raise AssigningError::AlreadyUsedOnUser
+      raise AssigningError::AlreadyUsedOnCurrentUser
     end
   end
 
