@@ -1,4 +1,30 @@
 # README
+-----------------
+
+Developers notes:
+
+- Git commits represent how I imagine working with the team, you will find filler commits, mainly on the DEVELOP branch 
+to act as mocks of other people commits.
+- Since git usage is taken into consideration, I refrained from squashing commits to preserve as much information about 
+my thinking process during the development time of this project. TNormally, I would squash commits when preparing the code 
+for review and for it to be merged into another branch.
+- Although it wasn't mentioned, I've allowed myself to implement additional tests, such as DevicesController POST tests.
+- I didn't agree on some tests implementation (or they were lacking critical parts), that is why I've allowed myself to
+modify them slightly.
+
+------------------
+  
+SETUP
+- verify your system/IDE has Ruby that is compatible with this projects Ruby version, which can be found in the 
+.ruby-version file or the Gemfile. You can verify your Ruby version by running "ruby -v" in the terminal.
+- verify you have rails and a ruby bundler installed. Ensure you have a compatible rails version to this project, which
+can be also found in the Gemfile. You can verify your rails version by running "rails -v" and bundler version by running
+"bundler -v" in the terminal.
+- You must install all needed gem dependencies by running "bundler install" in the terminal.
+- Before launching the app, please run in the terminal the following commands: "rspec spec" to run all existing tests,
+"rake db:test:prepare" which prepares the database for usage.
+
+------------------
 
 Your task is to implement the part of the application that helps track devices assigned to users within an organization.
 
