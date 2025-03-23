@@ -6,9 +6,10 @@ Developers notes:
 - Git commits represent how I imagine working with the team, you will find filler commits, mainly on the DEVELOP branch 
 to act as mocks of other people commits.
 - Since git usage is taken into consideration, I refrained from squashing commits to preserve as much information about 
-my thinking process during the development time of this project. TNormally, I would squash commits when preparing the code 
+my thinking process during the development time of this project. Normally, I would squash commits when preparing the code 
 for review and for it to be merged into another branch.
-- Although it wasn't mentioned, I've allowed myself to implement additional tests, such as DevicesController POST tests.
+- Although it wasn't listed in the requirements, I've allowed myself to implement additional tests, such as 
+DevicesController POST tests.
 - I didn't agree on some tests implementation (or they were lacking critical parts), that is why I've allowed myself to
 modify them slightly.
 
